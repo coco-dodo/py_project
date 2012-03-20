@@ -73,6 +73,12 @@ def dfs_walk_iterator_v2(root):
 		'''
 	pass
 	
+def compute_similarity(root_one,root_second):
+	pass
+
+
+
+
 if __name__ == "__main__":
 	xml_file_name = "test.xml"
 	root1 = parse_string_to_element(xml_content)
