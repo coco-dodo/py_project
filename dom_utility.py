@@ -18,25 +18,33 @@ xml_content = '''
 					</tag3>
 				</root>
 				'''
-#从xml string转换成xml element
 def parse_string_to_element(xml_content):
+	'''
+		从xml string转换成xml element
+		'''
 	from elementtree.ElementTree import fromstring
 	root = fromstring(xml_content)
 	return root
 
-#从xml filename 转换成xml element
 def parse_file_to_element(xml_file_name):
+	'''
+		从xml filename 转换成xml element
+		'''
 	from elementtree.ElementTree import parse
 	tree = parse(xml_file_name)
 	root = tree.getroot()
 	return root
 
-#从root element开始 根据xml文档顺序遍历这棵xml子树
 def doc_walk_iterator(root):
+	'''
+		从root element开始 根据xml文档顺序遍历这棵xml子树
+		'''
 	return root.getiterator()
 
-#广度优先遍历即树的层次遍历，使用队列数据结构
 def bfs_walk_iterator(root):
+	'''
+		广度优先遍历即树的层次遍历，使用队列数据结构
+		'''
 	from collections import deque
 	queue = deque();
 	queue.append(root);
@@ -46,10 +54,12 @@ def bfs_walk_iterator(root):
 		for child in list(next):
 			queue.append(child)
 
-#体会iterator的好处（generator yield）将处理逻辑从遍历中解耦，对于这种需要递归的遍历最能体现这个好处！！！
-#中（只针对二叉树）/前/后根树的深度遍历 最简单使用递归算法
-# 这里是前、后根深度遍历的例子
 def dfs_walk_iterator(root):
+	'''
+		体会iterator的好处（generator yield）将处理逻辑从遍历中解耦，对于这种需要递归的遍历最能体现这个好处！！！
+		中（只针对二叉树）/前/后根树的深度遍历 最简单使用递归算法
+		这里是前、后根深度遍历的例子
+		'''
 	yield root #pre order
 	from elementtree.ElementTree import Element
 	for child in list(root):
@@ -57,8 +67,10 @@ def dfs_walk_iterator(root):
 			yield next
 	#yield root	#post order
 
-# 非递归 使用stack 中（只针对二叉树）/前/后根树的深度遍历 
 def dfs_walk_iterator_v2(root):
+	'''
+		非递归 使用stack 中（只针对二叉树）/前/后根树的深度遍历 
+		'''
 	pass
 	
 if __name__ == "__main__":
