@@ -1,6 +1,4 @@
-#!/home/qiaoyi/python/bin/python
 #--*-- encoding:utf-8 --*--
-
 import MySQLdb
 
 def mysql_connect(_host, _port, _user, _passwd, _db):
@@ -39,7 +37,6 @@ def mysql_insert_batch(conn, query, args):
 	cont = cursor.executemany(query, args)
 	cursor.close()
 	return cont
-
 
 def mysql_update(conn, query, args):
 	cursor = conn.cursor()

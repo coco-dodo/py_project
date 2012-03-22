@@ -1,4 +1,3 @@
-#!/home/qiaoyi/python/bin/python
 #--*-- encoding:utf-8 --*--
 import html5lib
 from elementtree.ElementTree import Element
@@ -9,6 +8,7 @@ def parse_html_to_tree(html):
 	'''
 		利用html5lib模块规范化html文档内容，从html转换成xml element dom tree
 		'''
+	#TODO 通过html5lib构造的dom tree数据结构好像不靠谱
 	root = html5lib.parse(html, treebuilder="etree")	
 	return root
 	

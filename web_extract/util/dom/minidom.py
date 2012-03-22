@@ -1,24 +1,26 @@
-#!/home/qiaoyi/python/bin/python
 #encoding: utf-8
 import html5lib
 import xml.dom.minidom 
 from xml.dom.minidom import parse, parseString
 import xpath
 import fetcher
+import xml.parsers.expat
 
-#Part A:解析构造minidom的DOM树
-def parse_html_to_document(_html):
+#Part A:规范化html
+def formalize_html(_html):
 	'''
-		利用html5lib将html网页内容规范化后，转换成minidom的DOM树
+		利用html5lib将html网页内容规范化后，返回规范xml
 		'''
 	doc = html5lib.parse(_html, treebuilder="dom")
-	return doc
+	return doc.toxml()
+
+#Part B:解析构造minidom的DOM树
 
 def parse_xml_to_document(_xml):
 	'''
 		将xml string转换成minidom的DOM树
 		'''
-	doc = xml.dom.minidom.parseString(_xml)
+	doc = xml.dom.minidom.parseString(_xml.encode("utf-8"))
 	return doc
 
 def parse_xmlfile_to_document(file_name):
@@ -28,14 +30,15 @@ def parse_xmlfile_to_document(file_name):
 	doc = parse(file_name)#or file object
 	return doc
 
-#Part B:xpath查询
+#Part C:xpath查询
 def find_all_nodes_by_xpath(node, pattern):
 	context = xpath.XPathContext()
 	return context.find(pattern,node)
 
 def find_node_by_xpath(node, pattern):
-	context = xpath.XPathContext()
-	return context.findnode(pattern,node)
+	return xpath.findnode(pattern,node)
+	#context = xpath.XPathContext()
+	#return context.findnode(pattern,node)
 
 def test():
 	_xml = '''
@@ -57,11 +60,12 @@ def test():
 				</root>
 			'''
 #	doc = parse_xml_to_document(_xml)
-	url = "http://www.baidu.com/s?wd=site%3Asearch.china.alibaba.com";
-	page = fetcher.get_page(url);
-	doc = parse_html_to_document(page)	
+	url = "http://blog.csdn.net/hengcai001/article/details/4166996";
+	page = fetcher.fetch_page(url);
+	page = formalize_html(page)
+	doc = parse_xml_to_document(page)
 #	doc = parse_xmlfile_to_document("1")
-	node = find_node_by_xpath(doc.documentElement, u"./body[1]/div[1]/div[1]/div[1]/div[1]/a[1]")
+	node = find_node_by_xpath(doc.documentElement, u"/html/body/")
 
 	print node.nodeName
 
