@@ -32,7 +32,7 @@ def one_level_walk_iterator(root_field):
 
 def do_extract_work(field, field_element):
 	#get field_element text value
-	text = field_element.childNodes[0].nodeValue
+	text = " ".join(t.nodeValue for t in field_element.childNodes if t.nodeType == t.TEXT_NODE)
 	return text
 
 	#get field_element href attr value
@@ -47,7 +47,7 @@ def extract(doc, template):
 		'''
 	result = []
 	#iterator extract field in the templates
-	for field in one_level_walk_iterator(template["root_field"]):
+	for field in postorder_dfs_walk_iterator(template["root_field"]):
 		#locate the extract field node using field xpath location
 		field_xpath = field["location"]["start_xpath"]
 		field_element = minidom.find_node_by_xpath(doc.documentElement,field_xpath)
@@ -59,7 +59,7 @@ def extract(doc, template):
 			#do the extract work
 			extract_value = do_extract_work(field,field_element)
 			extract_key = field["name"]
-			field_extract_result = "[%s] : [%s]" %(extract_key,extract_value)
+			field_extract_result = "[%s] : [%s]" %(extract_key, extract_value)
 			result.append(field_extract_result)
 	return result
 
