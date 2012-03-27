@@ -1,2 +1,7 @@
+v1.0
 重新组织类整个代码库的目录结构
 完成了基于模板的抽取算法
+
+v1.1
+完成了list-detail自动抽取算法
+实现了simple-tree-matching算法
